@@ -11,12 +11,12 @@ generator client {
 }
 
 model Company {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  address   String?
-  account_owner String @unique
+  id             Int        @id @default(autoincrement())
+  name           String     @unique
+  address        String?
+  account_owner  String     @unique
   account_number String     @unique
-  contracts Contract[]
+  contracts      Contract[]
 }
 
 model TCP {

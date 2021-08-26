@@ -1,23 +1,14 @@
 import { ApolloServer, gql } from "apollo-server";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import { typeDefs } from "./graphql/schema_gql";
+import { resolvers } from "./graphql/resolvers";
 
-const typeDefs = `
-  type Query {
-    info: String!
-  }
-`;
+const port = 9812;
 
-const resolvers = {
-  Query: {
-    info: () => `Server working`,
-  },
-};
-
-const server = new ApolloServer({
-  typeDefs,
+new ApolloServer({
   resolvers,
-  introspection: true,
+  typeDefs,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground({})],
-});
-
-server.listen().then(({ url }) => console.log(`Server is running on ${url}`));
+}).listen({ port }, () =>
+  console.log(`Server ready at: http://localhost:${port}`)
+);
