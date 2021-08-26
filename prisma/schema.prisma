@@ -2,10 +2,44 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
+}
+
+model Company {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  address   String?
+  account_owner String @unique
+  account_number String     @unique
+  contracts Contract[]
+}
+
+model TCP {
+  id             Int        @id @default(autoincrement())
+  name           String     @unique
+  ci             String     @unique
+  address        String
+  phone          String     @unique
+  license        String     @unique
+  activitie      String
+  account_number String     @unique
+  contracts      Contract[]
+}
+
+model Contract {
+  id              Int      @id @default(autoincrement())
+  contract_number String
+  eventual        Boolean  @default(false)
+  product         String
+  company         Company? @relation(fields: [companyId], references: [id])
+  companyId       Int?
+  tcp             TCP?     @relation(fields: [tcpId], references: [id])
+  tcpId           Int?
+  signature_date  DateTime
+  due_date        DateTime
 }
